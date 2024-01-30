@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Verificación del reposiorio') {
+            steps {
+                // Cambia la URL a la de tu repositorio y especifica la rama principal
+                git branch: 'main',
+                    url: 'https://github.com/CyberMarcosPPS/CalculadoraPython.git'
+            }
+        }
+        stage('Realización de las pruebas unitarias') {
+            steps {
+                // Ejecución de las pruebas unitarias
+                sh 'python3 -m unittest unitaryTestCalculadora.py'
+            }
+        }
+        stage('Creación del entorno virtual') {
+            steps {
+                echo 'Construyendo la aplicación...'
+            }
+        }
+        stage('Despliegue del código') {
+            steps {
+                echo 'Desplegando la aplicación...'
+            }
+        }
+    }
+     post {
+        success {
+            echo 'Todos los pasos se han realizado correctamente.'
+        }
+        failure {
+            echo 'Algún paso no se ha realizado correctamente.'
+        }
+    }
+}
